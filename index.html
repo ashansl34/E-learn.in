@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduStream - Curated Learning Journeys</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS RESET & BASE STYLES --- */
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --primary-color: #ffffff;
+            --secondary-color: #a0a0a0;
+            --accent-gradient: linear-gradient(90deg, #3a8dff, #6f42c1);
+            --accent-color-start: #3a8dff;
+            --accent-color-end: #6f42c1;
+            --card-border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- GRADIENT TEXT --- */
+        .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background-color: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--card-border-color);
+        }
+
+        .navbar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+        .navbar .logo i {
+            margin-right: 8px;
+            color: var(--accent-color-start);
+        }
+
+        .nav-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .cta-button {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 100px 0 60px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* --- MAIN TOOL --- */
+        #app-tool {
+            background-color: var(--surface-color);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--card-border-color);
+            box-shadow: 0 20px 40px var(--shadow-color);
+        }
+
+        .selector-container {
+            margin-bottom: 30px;
+        }
+
+        .selector-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .selector-title .number {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: 700;
+            margin-right: 15px;
+        }
+        
+        .button-grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        #subject-selector { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        #unit-selector { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+        #day-selector { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+
+        .selector-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--secondary-color);
+            border: 1px solid var(--card-border-color);
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .selector-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .selector-btn.active {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+            font-weight: 600;
+        }
+
+        .watch-btn {
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: 600;
+        }
+        .watch-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Animation for appearing selectors */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- AD PLACEHOLDER --- */
+        .ad-placeholder {
+            width: 100%;
+            height: 100px;
+            background-color: var(--surface-color);
+            border: 2px dashed var(--card-border-color);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 60px auto;
+        }
+        .ad-placeholder.banner-lg { height: 280px; }
+
+
+        /* --- PROCESS SECTION --- */
+        .process-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .process-card {
+            background-color: var(--surface-color);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--card-border-color);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .process-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        .process-card .card-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .process-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .process-card p {
+            color: var(--secondary-color);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background-color: var(--surface-color);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--card-border-color);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            border-color: var(--accent-color-start);
+            transform: scale(1.03);
+        }
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            color: var(--secondary-color);
+        }
+
+        /* --- PRICING SECTION --- */
+        .pricing-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: var(--surface-color);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--accent-color-start);
+            text-align: center;
+            box-shadow: 0 0 30px rgba(58, 141, 255, 0.2);
+        }
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .pricing-card .price {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+        .pricing-card .price span {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            font-weight: 400;
+        }
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 30px 0;
+        }
+        .pricing-features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .pricing-features li i {
+            color: var(--accent-color-start);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        .pricing-card .cta-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+        
+        /* --- FAQ SECTION --- */
+        .faq-accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background-color: var(--surface-color);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--card-border-color);
+            overflow: hidden;
+        }
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 20px 30px;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        .faq-answer p {
+            padding: 0 30px 20px;
+            color: var(--secondary-color);
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background-color: var(--surface-color);
+            padding: 60px 0;
+            border-top: 1px solid var(--card-border-color);
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer .logo {
+             font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .footer-links {
+            margin: 20px 0;
+        }
+        .footer-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        .social-icons {
+            margin-bottom: 20px;
+        }
+        .social-icons a {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--accent-color-start);
+        }
+        .footer-copy {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        /* --- VIDEO MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            background-color: var(--bg-color);
+            border-radius: 15px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 15px;
+        }
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; }
+            .nav-links { margin-top: 15px; }
+            .hero h1 { font-size: 2.8rem; }
+            .section-title { font-size: 2rem; }
+            #subject-selector { grid-template-columns: repeat(2, 1fr); }
+            .ad-placeholder.banner-lg { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="#" class="logo"><i class="fa-solid fa-graduation-cap"></i> EduStream</a>
+            <div class="nav-links">
+                <a href="#app-tool">Tool</a>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <a href="#pricing" class="cta-button">Get Started - It's Free</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1>Your <span class="gradient-text">Personalized Learning</span> Journey Starts Here</h1>
+            <p>Master Physics, Chemistry, Biology, and Maths with our curated, day-by-day video curriculum. Absolutely free.</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Main Application Tool -->
+        <section id="app-tool-section" style="padding-top: 0;">
+            <div class="container">
+                <div id="app-tool">
+                    <!-- Step 1: Subject Selection -->
+                    <div class="selector-container">
+                        <h2 class="selector-title"><span class="number">1</span>Choose a Subject</h2>
+                        <div id="subject-selector" class="button-grid">
+                            <!-- Subject buttons will be injected by JS -->
+                        </div>
+                    </div>
+                    <!-- Step 2: Unit Selection -->
+                    <div class="selector-container" id="unit-container" style="display: none;">
+                        <h2 class="selector-title"><span class="number">2</span>Select a Unit</h2>
+                        <div id="unit-selector" class="button-grid">
+                            <!-- Unit buttons will be injected by JS -->
+                        </div>
+                    </div>
+                    <!-- Step 3: Day Selection -->
+                    <div class="selector-container" id="day-container" style="display: none;">
+                        <h2 class="selector-title"><span class="number">3</span>Pick a Day's Lesson</h2>
+                        <div id="day-selector" class="button-grid">
+                            <!-- Day buttons will be injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Google Ad Placeholder -->
+        <div class="container">
+            <div class="ad-placeholder">Leaderboard Ad (728x90) - Placeholder</div>
+        </div>
+
+        <!-- How It Works Section -->
+        <section id="process">
+            <div class="container">
+                <h2 class="section-title">Learning in <span class="gradient-text">Three Simple Steps</span></h2>
+                <p class="section-subtitle">Follow our structured path to build your knowledge from the ground up, one video at a time.</p>
+                <div class="process-cards">
+                    <div class="process-card">
+                        <div class="card-number">01</div>
+                        <h3>Select Subject</h3>
+                        <p>Choose from Physics, Chemistry, Biology, or Maths to begin your learning adventure.</p>
+                    </div>
+                    <div class="process-card">
+                        <div class="card-number">02</div>
+                        <h3>Choose Unit & Day</h3>
+                        <p>Navigate through our 15-unit structure and pick one of the 10 daily lessons.</p>
+                    </div>
+                    <div class="process-card">
+                        <div class="card-number">03</div>
+                        <h3>Watch & Learn</h3>
+                        <p>Instantly stream the curated video for the day and absorb the knowledge. It's that easy!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features">
+            <div class="container">
+                <h2 class="section-title">Why <span class="gradient-text">EduStream</span>?</h2>
+                <p class="section-subtitle">We've built a platform focused on structured, distraction-free learning.</p>
+                <div class="feature-cards">
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <h3>Structured Curriculum</h3>
+                        <p>No more random searches. Our Unit and Day system provides a clear path to mastery.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-check-double"></i></div>
+                        <h3>Expertly Curated</h3>
+                        <p>We hand-pick high-quality, educational videos from trusted creators on YouTube.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Instant Access</h3>
+                        <p>Watch videos directly on our site in a clean, focused player without leaving the page.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-moon"></i></div>
+                        <h3>Beautiful Dark Mode</h3>
+                        <p>Enjoy a visually stunning and comfortable learning experience, day or night.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-infinity"></i></div>
+                        <h3>Completely Free</h3>
+                        <p>We believe quality education should be accessible to everyone, free of charge.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                        <h3>Fully Responsive</h3>
+                        <p>Learn on the go. Our platform works seamlessly on your desktop, tablet, or phone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ad Placeholder -->
+        <div class="container">
+             <div class="ad-placeholder banner-lg">Large Rectangle Ad (336x280) - Placeholder</div>
+        </div>
+
+        <!-- Pricing Section -->
+        <section id="pricing">
+            <div class="container">
+                <h2 class="section-title">Fair, Transparent Pricing</h2>
+                <p class="section-subtitle">Our mission is to make knowledge accessible. That's why our core service is, and always will be, free.</p>
+                <div class="pricing-card">
+                    <h3>Community Plan</h3>
+                    <div class="price">$0<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fa-solid fa-check-circle"></i> Access to all subjects</li>
+                        <li><i class="fa-solid fa-check-circle"></i> All 15 units per subject</li>
+                        <li><i class="fa-solid fa-check-circle"></i> 10 daily lessons per unit</li>
+                        <li><i class="fa-solid fa-check-circle"></i> In-app video player</li>
+                        <li><i class="fa-solid fa-check-circle"></i> Community support</li>
+                    </ul>
+                    <a href="#app-tool" class="cta-button">Start Learning Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+                <p class="section-subtitle">Have questions? We have answers. If you can't find what you're looking for, feel free to contact us.</p>
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>How are the videos selected?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Our team of educators and subject matter experts carefully vets and selects high-quality, accurate, and engaging videos from reputable educational channels on YouTube.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Is this service really free?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, absolutely. The platform is supported by non-intrusive ads, allowing us to keep the core learning experience completely free for all users. We believe in open access to education.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Can I suggest a video or topic?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We are always open to suggestions! While we can't guarantee every submission will be included, we value community input. Please use our 'Contact' link in the footer to send us your ideas.</p>
+                        </div>
+                    </div>
+                     <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Do I need a YouTube account to watch?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>No, you do not need a YouTube account. All videos are embedded and played directly on our website for a seamless and integrated experience. Just click and learn!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <a href="#" class="logo"><i class="fa-solid fa-graduation-cap"></i> EduStream</a>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="footer-copy">© 2024 EduStream. All Rights Reserved. Happy Learning!</p>
+        </div>
+    </footer>
+
+    <!-- Video Player Modal -->
+    <div class="modal-overlay" id="video-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal-btn">×</button>
+            <div class="video-container">
+                <iframe id="video-player" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- STATE & CONFIG ---
+        const state = {
+            selectedSubject: null,
+            selectedUnit: null,
+        };
+        const subjects = [
+            { id: 'physics', name: 'Physics', icon: 'fa-atom' },
+            { id: 'chemistry', name: 'Chemistry', icon: 'fa-flask-vial' },
+            { id: 'biology', name: 'Biology', icon: 'fa-dna' },
+            { id: 'maths', name: 'Maths', icon: 'fa-calculator' }
+        ];
+
+        // --- VIDEO DATA (Moved from server.js) ---
+        const placeholderVideos = [
+            '3_yD_c_agvA', // Neil deGrasse Tyson Explains The Universe
+            'U_O5-Man12o', // A Brief History of Quantum Mechanics
+            'zih7_x7_SgE', // The Fascinating Science of Fireworks
+            's2Un5P3_T7s', // What Is The Speed of Dark?
+            'w3_n_b9a-so', // What Is Something?
+            'hS_6Qljp5ww', // Richard Feynman on The Pleasure of Finding Things Out
+            'l-gQLqv9f4o', // The Math Needed for Computer Science
+            '8v_hG6rxp2g'  // Why is the Sky Blue?
+        ];
+
+        const getVideoId = (subject, unit, day) => {
+            const subjectIndex = ['physics', 'chemistry', 'biology', 'maths'].indexOf(subject.toLowerCase());
+            // A simple algorithm to get a different, predictable video for each combination
+            const index = (subjectIndex + parseInt(unit) + parseInt(day)) % placeholderVideos.length;
+            return placeholderVideos[index];
+        };
+        // --- END OF VIDEO DATA ---
+
+        // --- DOM ELEMENTS ---
+        const subjectSelector = document.getElementById('subject-selector');
+        const unitContainer = document.getElementById('unit-container');
+        const unitSelector = document.getElementById('unit-selector');
+        const dayContainer = document.getElementById('day-container');
+        const daySelector = document.getElementById('day-selector');
+        const videoModal = document.getElementById('video-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const videoPlayer = document.getElementById('video-player');
+
+        // --- UI RENDERING FUNCTIONS ---
+        const renderSubjects = () => {
+            subjectSelector.innerHTML = subjects.map(subject => `
+                <button class="selector-btn" data-subject="${subject.id}">
+                    <i class="fa-solid ${subject.icon}"></i> ${subject.name}
+                </button>
+            `).join('');
+        };
+
+        const renderUnits = () => {
+            let unitButtons = '';
+            for (let i = 1; i <= 15; i++) {
+                unitButtons += `<button class="selector-btn" data-unit="${i}">Unit ${i}</button>`;
+            }
+            unitSelector.innerHTML = unitButtons;
+            unitContainer.style.display = 'block';
+            unitContainer.classList.add('fade-in');
+            dayContainer.style.display = 'none'; // Hide days when a new subject is picked
+        };
+
+        const renderDays = () => {
+            let dayButtons = '';
+            for (let i = 1; i <= 10; i++) {
+                dayButtons += `
+                    <button class="selector-btn watch-btn" data-day="${i}">
+                        <i class="fa-solid fa-play"></i> Day ${i}
+                    </button>`;
+            }
+            daySelector.innerHTML = dayButtons;
+            dayContainer.style.display = 'block';
+            dayContainer.classList.add('fade-in');
+        };
+
+        // --- EVENT HANDLERS ---
+        const handleSubjectClick = (e) => {
+            const subjectBtn = e.target.closest('.selector-btn');
+            if (!subjectBtn) return;
+            state.selectedSubject = subjectBtn.dataset.subject;
+            document.querySelectorAll('#subject-selector .selector-btn').forEach(btn => btn.classList.remove('active'));
+            subjectBtn.classList.add('active');
+            renderUnits();
+        };
+
+        const handleUnitClick = (e) => {
+            const unitBtn = e.target.closest('.selector-btn');
+            if (!unitBtn) return;
+            state.selectedUnit = unitBtn.dataset.unit;
+            document.querySelectorAll('#unit-selector .selector-btn').forEach(btn => btn.classList.remove('active'));
+            unitBtn.classList.add('active');
+            renderDays();
+        };
+
+        const handleDayClick = (e) => {
+            const dayBtn = e.target.closest('.watch-btn');
+            if (!dayBtn) return;
+
+            const day = dayBtn.dataset.day;
+            const { selectedSubject, selectedUnit } = state;
+
+            if (!selectedSubject || !selectedUnit) return;
+
+            // Get video ID directly from our local function
+            const videoId = getVideoId(selectedSubject, selectedUnit, day);
+
+            if (videoId) {
+                videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                videoModal.classList.add('show');
+            } else {
+                alert("Sorry, we couldn't load the video for this day. Please try another one.");
+            }
+        };
+
+        const closeModal = () => {
+            videoModal.classList.remove('show');
+            videoPlayer.src = ''; // Stop the video
+        };
+
+        // --- FAQ ACCORDION ---
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const wasActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // --- INITIALIZATION ---
+        const init = () => {
+            renderSubjects();
+            subjectSelector.addEventListener('click', handleSubjectClick);
+            unitSelector.addEventListener('click', handleUnitClick);
+            daySelector.addEventListener('click', handleDayClick);
+            closeModalBtn.addEventListener('click', closeModal);
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) {
+                    closeModal();
+                }
+            });
+        };
+        
+        init();
+    });
+    </script>
+</body>
+</html>
