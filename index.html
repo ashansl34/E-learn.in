@@ -552,7 +552,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <a href="#" class="logo"><i class="fa-solid fa-graduation-cap"></i> E-learn</a>
+            <a href="#" class="logo"><i class="fa-solid fa-graduation-cap"></i> EduStream</a>
             <div class="nav-links">
                 <a href="#app-tool">Tool</a>
                 <a href="#features">Features</a>
@@ -708,7 +708,7 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>Our team of educators and subject matter experts carefully vets and selects high-quality, accurate, and engaging videos from reputable educational channels on YouTube.</p>
+                            <p>You can customize every video link directly in the index.html file! We've set up a simple structure for you to add your hand-picked videos for every lesson.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -726,7 +726,7 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>We are always open to suggestions! While we can't guarantee every submission will be included, we value community input. Please use our 'Contact' link in the footer to send us your ideas.</p>
+                            <p>Since this is your personal copy, you don't need to suggest anything—you can add any video you want directly into the code!</p>
                         </div>
                     </div>
                      <div class="faq-item">
@@ -787,25 +787,54 @@
             { id: 'maths', name: 'Maths', icon: 'fa-calculator' }
         ];
 
-        // --- VIDEO DATA (Moved from server.js) ---
-        const placeholderVideos = [
-            '3_yD_c_agvA', // Neil deGrasse Tyson Explains The Universe
-            'U_O5-Man12o', // A Brief History of Quantum Mechanics
-            'zih7_x7_SgE', // The Fascinating Science of Fireworks
-            's2Un5P3_T7s', // What Is The Speed of Dark?
-            'w3_n_b9a-so', // What Is Something?
-            'hS_6Qljp5ww', // Richard Feynman on The Pleasure of Finding Things Out
-            'l-gQLqv9f4o', // The Math Needed for Computer Science
-            '8v_hG6rxp2g'  // Why is the Sky Blue?
-        ];
+        // ===================================================================
+        // === YOUR CUSTOM VIDEO DATABASE ===
+        // ===================================================================
+        
+        // This is the fallback video that will play if you haven't assigned a specific video.
+        const defaultVideo = '3_yD_c_agvA'; // A good fallback video (Neil deGrasse Tyson Explains The Universe)
+
+        // Add your custom video IDs here.
+        const videoDatabase = {
+            physics: {
+                unit1: {
+                    day1: 'G6Nn_n_1QyM',
+                    day2: '2i2N71s4t1M',
+                },
+                unit9: {
+                    day1: 'BmRabnv8XMU',
+                    day2: 'UxXuWDbFeoA',
+                    day3: '7_DsmUE8JTE',
+                    day4: '7V6-FhMcGhs',
+                    day5: 'TBPS2sPiRvM',
+                    // Days 6-10 are intentionally left empty and will use the default video.
+                }
+            },
+            chemistry: {
+                // Add your chemistry units and days here
+            },
+            biology: {
+                // Add your biology units and days here
+            },
+            maths: {
+                // Add your maths units and days here
+            }
+        };
 
         const getVideoId = (subject, unit, day) => {
-            const subjectIndex = ['physics', 'chemistry', 'biology', 'maths'].indexOf(subject.toLowerCase());
-            // A simple algorithm to get a different, predictable video for each combination
-            const index = (subjectIndex + parseInt(unit) + parseInt(day)) % placeholderVideos.length;
-            return placeholderVideos[index];
+            try {
+                const videoId = videoDatabase[subject][`unit${unit}`][`day${day}`];
+                // If a specific video is found, return it. Otherwise, return the default video.
+                return videoId || defaultVideo; 
+            } catch (error) {
+                // If the subject, unit, or day doesn't exist in the database, return the default.
+                return defaultVideo;
+            }
         };
-        // --- END OF VIDEO DATA ---
+        // ===================================================================
+        // === END OF VIDEO DATABASE ===
+        // ===================================================================
+
 
         // --- DOM ELEMENTS ---
         const subjectSelector = document.getElementById('subject-selector');
@@ -925,4 +954,4 @@
     });
     </script>
 </body>
-</html>
+    </html>
